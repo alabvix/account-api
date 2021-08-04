@@ -21,6 +21,11 @@ Projeto de exemplo de testes unitários com JUnit5 e Spring Boot.
 * Para executar a aplicação:
     > mvn spring-boot:run                                                          
 
+### Casos de Uso
+
+<p style="text-align: center;">
+    <img src="account-api.png" alt="Usecase" width="300px" heigth="300px">
+</p>
 
 
 
