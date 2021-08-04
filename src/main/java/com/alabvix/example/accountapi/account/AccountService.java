@@ -31,6 +31,11 @@ public class AccountService {
     }
 
     public void createAccount(Account account){
+
+        financeService.validateAccountHolder(account.getAccountHolderId());
+
+        accountRepository.save(account);
+
     }
 
     public void withdraw(Transaction transaction){

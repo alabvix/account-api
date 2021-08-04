@@ -1,5 +1,6 @@
 package com.alabvix.example.accountapi.account;
 
+import com.alabvix.example.accountapi.finance.FinanceException;
 import com.alabvix.example.accountapi.finance.FinanceService;
 import com.alabvix.example.accountapi.limit.Limit;
 import com.alabvix.example.accountapi.limit.LimitService;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
@@ -37,6 +39,42 @@ public class AccountServiceUnitTest {
         // Runs before each method. For each method an instance of the test class will be created.
         MockitoAnnotations.openMocks(this);
         accountService = new AccountService(financeService, limitService, accountRepository);
+    }
+
+    @Test
+    @DisplayName("Given a valid account holder should create account")
+    public void createAccount_valid_account_holder(){
+
+        // Given
+        Account account = new Account(1, 1, BigDecimal.valueOf(1000));
+        doNothing().when(financeService).validateAccountHolder(1);
+
+        // when
+        accountService.createAccount(account);
+
+        // then
+        verify(accountRepository, times(1)).save(account);
+
+    }
+
+    @Test
+    @DisplayName("Given an invalid account holder should throws FinanceException and not create account")
+    public void createAccount_invalid_account_holder(){
+
+        // Given
+        Account account = new Account(1, 1, BigDecimal.valueOf(1000));
+        doThrow(FinanceException.class)
+                .when(financeService)
+                .validateAccountHolder(1);
+
+        // when
+        Assertions.assertThrows(FinanceException.class, () -> {
+            accountService.createAccount(account);
+        });
+
+        // then
+        verify(accountRepository, times(0)).save(account);
+
     }
 
     @Test
