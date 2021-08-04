@@ -122,7 +122,7 @@ public class AccountServiceUnitTest {
 
     @Test
     @DisplayName("Given an over limit withdraw must throws an InvalidTransactionException")
-    public void withdraw_given_amount_over_limit_should_throws_Exception(){
+    public void withdraw_over_limit_should_throws_Exception(){
 
         assertEquals(true, false);
 

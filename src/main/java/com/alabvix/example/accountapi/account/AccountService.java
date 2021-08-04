@@ -31,11 +31,9 @@ public class AccountService {
     }
 
     public void createAccount(Account account){
-
     }
 
     public void withdraw(Transaction transaction){
-
     }
 
     public void deposit(Transaction transaction){
@@ -50,11 +48,9 @@ public class AccountService {
         account.setBalance(account.getBalance().add(transaction.amount));
 
         accountRepository.save(account);
-
     }
 
     public void loan(Transaction transaction){
-
     }
 
 }
