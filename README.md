@@ -24,7 +24,7 @@ Projeto de exemplo de testes unitários com JUnit5 e Spring Boot.
 ### Casos de Uso
 
 <p style="text-align: center;">
-    <img src="account-api.png" alt="Usecase" width="300px" heigth="300px">
+    <img src="account-api.png" alt="Usecase" width="600px" heigth="600px">
 </p>
 
 
