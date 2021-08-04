@@ -174,4 +174,54 @@ public class AccountServiceUnitTest {
 
     }
 
+    @Test
+    @DisplayName("Given a valid loan transaction the loan should be approved")
+    public void loan_valid_transaction_should_approve() {
+
+        // given
+        Transaction transaction = new Transaction(
+                TransactionType.LOAN,
+                BigDecimal.valueOf(1500.65),
+                LocalDate.now(),
+                1);
+        Account account = new Account(1, 1, BigDecimal.valueOf(1000.05));
+        doNothing().when(financeService).validateLoan(transaction);
+        when(accountRepository.findById(1)).thenReturn(account);
+
+        // when
+        accountService.loan(transaction);
+
+        // then
+        assertEquals(new BigDecimal("2500.70"), account.getBalance());
+        verify(accountRepository, times(1)).save(account);
+
+    }
+
+    @Test
+    @DisplayName("Given an invalid loan transaction should throws finance exception")
+    public void loan_invalid_transaction_should_throws_exception() {
+
+        // given
+        Transaction transaction = new Transaction(
+                TransactionType.LOAN,
+                BigDecimal.valueOf(1500.65),
+                LocalDate.now(),
+                1);
+        Account account = new Account(1, 1, BigDecimal.valueOf(1000.05));
+        doThrow(FinanceException.class)
+                .when(financeService)
+                .validateLoan(transaction);
+
+        // then
+        Exception ex = Assertions.assertThrows(FinanceException.class, () -> {
+            // when
+            accountService.loan(transaction);
+        });
+
+        // then
+        assertEquals(new BigDecimal("1000.05"), account.getBalance());
+        verify(accountRepository, times(0)).save(account);
+
+    }
+
 }

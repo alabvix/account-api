@@ -56,6 +56,14 @@ public class AccountService {
     }
 
     public void loan(Transaction transaction){
+
+        financeService.validateLoan(transaction);
+
+        Account account = accountRepository.findById(transaction.accountId);
+        account.setBalance(account.getBalance().add(transaction.amount));
+
+        accountRepository.save(account);
+
     }
 
 }
